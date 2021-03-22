@@ -1,21 +1,35 @@
 <template>
   <div class="container">
     <global-header :user="currentUser"></global-header>
-    <column-list :list="list"></column-list>
+    <!-- <column-list :list="list"></column-list> -->
+    <form>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" calss="form-label">邮箱地址</label>
+        <validate-input :rules="emailRules" v-model="emailVal" placeholder="请输入邮箱地址" type="text"></validate-input>
+      </div>
+        <div class="mb-3">
+        <label for="exampleInputEmail1" calss="form-label">密码</label>
+        <validate-input v-model="emailVal" placeholder="请输入密码" type="password"></validate-input>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import ColumnList, { ColumnProps } from './components/ColumnList.vue'
+import { ColumnProps } from './components/ColumnList.vue'
 import GlobalHeader, { UserProps } from './components/GlobalHeader.vue'
+import ValidateInput, { RulesProp } from './components/ValidateInput.vue'
 
 const currentUser:UserProps = {
   isLogin: true,
   name: 'Nicolana',
   id: 1231
 }
+
+const emailReg = /^[0-9a-zA-Z_.-]+[@][0-9a-zA-Z_.-]+([.][a-zA-Z]+){1,2}$/
 
 const testData: ColumnProps[] = [
   {
@@ -53,13 +67,38 @@ const testData: ColumnProps[] = [
 export default defineComponent({
   name: 'App',
   components: {
-    ColumnList,
-    GlobalHeader
+    // ColumnList,
+    GlobalHeader,
+    ValidateInput
   },
   setup () {
+    const emailVal = ref('')
+    const emailRules: RulesProp = [
+      { type: 'required', message: '电子邮箱地址不能为空' },
+      { type: 'email', message: '请输入正确的电子邮箱格式' }
+    ]
+    const emailRef = reactive({
+      val: '',
+      error: false,
+      message: ''
+    })
+    const validateEmail = () => {
+      if (emailRef.val.trim() === '') {
+        emailRef.error = true
+        emailRef.message = 'can not be empty'
+      } else if (!emailReg.test(emailRef.val)) {
+        emailRef.error = true
+        emailRef.message = 'should be valid email address'
+      }
+    }
+
     return {
       list: testData,
-      currentUser: currentUser
+      currentUser: currentUser,
+      validateEmail,
+      emailRef,
+      emailRules,
+      emailVal
     }
   }
 })
