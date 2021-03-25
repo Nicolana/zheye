@@ -1,5 +1,7 @@
 <template>
-  <h1>Hello column Detail</h1>
+  <h1>
+    <pre>{{ route }}</pre>
+  </h1>
 </template>
 
 <script lang="ts">

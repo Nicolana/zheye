@@ -10,7 +10,7 @@
         <div class="card-text text-start">
           {{ column.description }}
         </div>
-        <a href="#" class="btn btn-outline-primary">进入专栏</a>
+        <router-link :to="{name: 'column', params: {id: column.id}}" class="btn btn-outline-primary">进入专栏</router-link>
       </div>
     </div>
   </div>

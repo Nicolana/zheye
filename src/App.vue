@@ -17,9 +17,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent } from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { ColumnProps } from './components/ColumnList.vue'
 import GlobalHeader, { UserProps } from './components/GlobalHeader.vue'
 
 const currentUser:UserProps = {
@@ -27,6 +26,7 @@ const currentUser:UserProps = {
   name: 'Nicolana',
   id: 1231
 }
+
 export default defineComponent({
   name: 'App',
   components: {
