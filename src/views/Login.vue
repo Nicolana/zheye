@@ -13,13 +13,14 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 import ValidateForm from '../components/ValidateForm.vue'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
 
 export default defineComponent({
+  name: 'Login',
   components: { ValidateForm, ValidateInput },
   setup () {
-    const router = useRouter()
     const emailVal = ref('')
     const passwordVal = ref('')
     const emailRules: RulesProp = [
@@ -29,9 +30,15 @@ export default defineComponent({
     const passwordRules: RulesProp = [
       { type: 'required', message: '请输入密码' }
     ]
+
+    const store = useStore()
+    const router = useRouter()
+
     const onFormSubmit = (result: boolean | undefined) => {
       if (result as boolean && result) {
-        router.push({ name: 'column', params: { id: 1213 } })
+        store.commit('login')
+        router.push('/')
+        // router.push({ name: 'column', params: { id: 1213 } })
       }
     }
     return {
